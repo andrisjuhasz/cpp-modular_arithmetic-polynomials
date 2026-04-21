@@ -1,0 +1,29 @@
+# Build directories
+build/
+
+# Compiled objects and binaries
+*.o
+*.a
+*.so
+*.out
+
+# Debug / profiling
+*.d
+*.gcda
+*.gcno
+*.gcov
+
+# Core dumps
+core
+core.*
+
+# Editor / terminal leftovers
+*~
+*.swp
+*.swo
+
+# CMake (if you ever switch)
+CMakeFiles/
+CMakeCache.txt
+compile_commands.json
+Makefile
