@@ -1,3 +1,5 @@
+#include <stdexcept>
+
 template<int P>
 IntMod<P>::IntMod(): nMod_(0){}
 
@@ -14,6 +16,11 @@ bool IntMod<P>::operator==(const IntMod<P>& other) const{
 }
 
 template<int P>
+bool IntMod<P>::operator!=(const IntMod<P>& other) const{
+    return !(*this==other);
+}
+
+template<int P>
 IntMod<P>& IntMod<P>::operator+=(const IntMod<P>& other){
     nMod_+=other.nMod_;
     nMod_%=P;
@@ -25,6 +32,13 @@ IntMod<P>& IntMod<P>::operator++(){
     nMod_++;
     nMod_%=P;
     return *this;
+}
+
+template<int P>
+IntMod<P> IntMod<P>::operator++(int){
+    IntMod<P> temp=*this;
+    ++(*this);
+    return temp;
 }
 
 template <int P>
@@ -43,10 +57,9 @@ IntMod<P>& IntMod<P>::operator-=(const IntMod<P>& other){
 
 template <int P>
 IntMod<P> IntMod<P>::operator-(const IntMod<P>& other) const{
-    int result = nMod_ - other.nMod_;
-    if (result < 0)
-        result += P;
-    return IntMod(result);
+    IntMod<P> temp = *this;
+    temp -= other;
+    return temp;
 }
 
 template <int P>
@@ -56,8 +69,7 @@ IntMod<P> IntMod<P>::operator-() const{
 
 template <int P>
 IntMod<P>& IntMod<P>::operator*=(const IntMod<P>& other){
-    nMod_*=other.nMod_;
-    nMod_%=P;
+    nMod_=(1LL * nMod_ * other.nMod_)%P;
     return *this;
 }
 
@@ -68,9 +80,20 @@ IntMod<P> IntMod<P>::operator*(const IntMod<P>& other) const{
     return temp;
 }
 
-template <int P>
-IntMod<P> IntMod<P>::operator*(int num) const{
-    return IntMod<P>{(nMod_*num)%P};
+//Fermat's Little Theorem
+template<int P>
+IntMod<P> IntMod<P>::Inverse() const{
+    if (nMod_ == 0) {
+        throw std::runtime_error("Zero has no multiplicative inverse modulo P");
+    }
+    return FastExponentiation(P-2);
+}
+
+template<int P>
+IntMod<P> IntMod<P>::operator/(const IntMod<P>& other) const {
+    if (other.nMod_ == 0)
+    throw std::runtime_error("Division by zero in modular arithmetic");
+    return *this * other.Inverse();
 }
 
 template<int P>
@@ -86,9 +109,7 @@ IntMod<P> IntMod<P>::FastExponentiation(int exp) const{
     return IntMod<P>(result);
 }
 
-//Fermat's Little Theorem
 template<int P>
-IntMod<P> IntMod<P>::Inverse() const{
-    return FastExponentiation(P-2);
+int IntMod<P>::Value() const{
+    return nMod_;
 }
-
