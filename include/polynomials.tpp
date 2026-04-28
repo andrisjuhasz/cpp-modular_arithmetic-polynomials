@@ -1,6 +1,6 @@
 #include <string>
 #include <stdexcept>
-#include "stdvector_extension.hpp"
+#include "vector_utilities.hpp"
 
 template<class T>
 std::vector<bool> UnivPoly<T>::lagrangeBasesAprioriMonomCoeffsInitialized_;

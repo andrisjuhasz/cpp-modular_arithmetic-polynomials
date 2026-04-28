@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include "stdvector_extension.hpp"
+#include "vector_utilities.hpp"
 #include "modular_arithmetic.hpp"
 #include "polynomials.hpp"
 
