@@ -139,4 +139,3 @@ I created this project to:
 
 - Reed-Solomon encoding
 - zk-proof primitives
-- unit tests
